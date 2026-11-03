@@ -564,15 +564,17 @@
             will-change: transform, opacity;
         }
 
+        /* Softer hero title: lighter weight, smaller, slightly translucent white */
         .masked-text.h1 {
             font-family: var(--font-headline);
-            font-size: clamp(2.2rem, 5vw, 4.6rem);
-            line-height: 0.92;
-            color: #ffffff;
+            font-size: clamp(1.7rem, 3.4vw, 3.1rem);
+            line-height: 1.05;
+            color: rgba(255, 255, 255, 0.86);
             text-transform: uppercase;
-            letter-spacing: -0.025em;
-            margin-bottom: 24px;
-            font-weight: 800;
+            letter-spacing: 0.01em;
+            margin-bottom: 22px;
+            font-weight: 600;
+            text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25);
         }
 
         .js .hero_btn_wrap {
@@ -676,6 +678,25 @@
             color: var(--text-main);
             border-color: #ffffff;
         }
+
+        /* Hero buttons: smaller and quieter so the video leads */
+        .hero .btn-solid {
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            padding: 11px 18px;
+            background-color: rgba(255, 255, 255, 0.82);
+            border-color: transparent;
+        }
+
+        .hero .btn-solid.ghost {
+            background-color: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.82);
+            border-color: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .hero .btn-solid:hover { background-color: #ffffff; color: var(--text-main); border-color: #ffffff; }
 
         /* ============================================================
            MARQUEE (JS-driven: speeds up and flips with your scroll)
@@ -1738,11 +1759,16 @@
             }
 
             /* Hero */
-            .hero { padding: 0 16px 20vh; }
+            /* Hero on phones: smaller title + buttons, sitting lower in the frame */
+            .hero { padding: 0 16px 92px; }
+            .masked-text.h1 { font-size: 1.3rem; margin-bottom: 14px; letter-spacing: 0.02em; }
+            .scroll-cue { font-size: 0; gap: 0; }
+            .scroll-cue i { height: 26px; }
             .hero-foot { left: 16px; right: 16px; bottom: 18px; }
             .hero-foot .hero-place { display: none; }
             .hero_btn_wrap { width: 100%; max-width: 340px; }
-            .hero_btn_wrap .btn-solid { flex: 1 1 0; justify-content: center; padding: 14px 12px; }
+            .hero_btn_wrap { max-width: none; width: auto; gap: 8px; }
+            .hero_btn_wrap .btn-solid { flex: 0 0 auto; white-space: nowrap; justify-content: center; padding: 10px 14px; font-size: 10px; }
 
             /* Section spacing */
             .story-section { padding: 52px 16px 70px; }
