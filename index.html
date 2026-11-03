@@ -19,6 +19,7 @@
         salon's own work. To add more looks to the
         sliding gallery, copy one <article class="look"> block.
       - hero-video.mp4 / hero-video-720.mp4 / hero-poster.jpg (hero background)
+      - Team: names, roles and photos (team-1.jpg … team-6.jpg) in the OUR TEAM section
       - Domain in og:url / JSON-LD
     ================================================================
     -->
@@ -1280,6 +1281,183 @@
             padding-right: 16px;
         }
 
+        /* --- TEAM (marquee rows) --- */
+        .team {
+            padding: 120px 0 140px;
+            background-color: var(--bg-main);
+            overflow: hidden;
+        }
+
+        .team-head {
+            padding: 0 4vw;
+            margin-bottom: 36px;
+        }
+
+        /* Huge title that slides sideways with the scroll */
+        .team-title {
+            display: flex;
+            align-items: center;
+            gap: 0.22em;
+            width: max-content;
+            padding-left: 4vw;
+            margin-bottom: 48px;
+            font-family: var(--font-headline);
+            font-weight: 800;
+            font-size: clamp(4.2rem, 13vw, 13rem);
+            line-height: 0.82;
+            letter-spacing: -0.045em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            user-select: none;
+            will-change: transform;
+        }
+
+        .team-title .outline {
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--text-main);
+        }
+
+        .team-title .star {
+            color: var(--yellow-accent);
+            font-size: 0.45em;
+            -webkit-text-stroke: 0;
+            display: inline-block;
+            animation: spin 10s linear infinite;
+        }
+
+        /* Auto-scrolling rows (JS clones the set for a seamless loop) */
+        .team-row { overflow: hidden; }
+
+        .team-track {
+            display: flex;
+            gap: 16px;
+            width: max-content;
+            will-change: transform;
+        }
+
+        .member {
+            flex: 0 0 auto;
+            width: clamp(220px, 21vw, 300px);
+            display: block;
+            color: var(--text-main);
+        }
+
+        .member-photo {
+            position: relative;
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            border-radius: 4px;
+            display: grid;
+            place-items: center;
+            background-color: var(--text-main);
+            color: var(--bg-main);
+        }
+
+        .member:nth-child(3n+2) .member-photo { background-color: var(--yellow-accent); color: var(--text-main); }
+        .member:nth-child(3n+3) .member-photo { background-color: var(--bg-media); color: var(--text-main); }
+
+        .member-initials {
+            font-family: var(--font-headline);
+            font-weight: 800;
+            font-size: clamp(4.5rem, 8vw, 7.5rem);
+            line-height: 1;
+            letter-spacing: -0.06em;
+            transition: transform 0.7s var(--ease-out);
+        }
+
+        .member:hover .member-initials { transform: scale(1.08) rotate(-4deg); }
+
+        /* Real photo sits on top of the initials once it exists (team-1.jpg …) */
+        .member-photo img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(1) contrast(1.05);
+            transition: filter 0.6s ease, transform 0.9s var(--ease-out);
+        }
+
+        .member:hover .member-photo img { filter: none; transform: scale(1.06); }
+
+        .member-index {
+            position: absolute;
+            top: 12px;
+            left: 14px;
+            z-index: 1;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            opacity: 0.75;
+        }
+
+        .member-skill {
+            position: absolute;
+            left: 12px;
+            bottom: 12px;
+            z-index: 1;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            padding: 6px 9px;
+            border-radius: 3px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.35s ease, transform 0.5s var(--ease-out);
+        }
+
+        .member:hover .member-skill { opacity: 1; transform: none; }
+
+        .member-info {
+            padding-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .member-name {
+            font-family: var(--font-headline);
+            font-weight: 800;
+            font-size: 1.1rem;
+            line-height: 1;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+        }
+
+        /* Yellow tilted ribbon of specialities, running the other way */
+        .team-ribbon {
+            margin: 64px -2% 0;
+            padding: 14px 0;
+            background-color: var(--yellow-accent);
+            transform: rotate(-2deg);
+        }
+
+        .team-ribbon .team-track { gap: 0; }
+
+        .ribbon-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 22px;
+            padding-right: 22px;
+            font-family: var(--font-headline);
+            font-weight: 800;
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            color: var(--text-main);
+        }
+
+        .ribbon-item .italic-serif { font-size: 1.15em; }
+
+        .ribbon-item::after {
+            content: '✦';
+            font-size: 0.7em;
+        }
+
         /* --- BOOKING CTA --- */
         .cta {
             will-change: clip-path;
@@ -1612,6 +1790,14 @@
             .process-name { grid-column: 1; grid-row: 2; }
             .process-time { grid-column: 2; grid-row: 2; padding-right: 0; align-self: center; }
             .process-detail { grid-column: 1 / 3; grid-row: 3; font-size: 1.12rem; }
+
+            /* Team */
+            .team { padding: 80px 0 96px; }
+            .team-head { padding: 0 16px; margin-bottom: 24px; }
+            .team-title { padding-left: 16px; margin-bottom: 32px; font-size: 21vw; }
+            .member { width: 200px; }
+            .member-skill { opacity: 1; transform: none; }
+            .team-ribbon { margin-top: 44px; padding: 11px 0; }
 
             /* Booking */
             .cta { padding: 90px 16px; }
@@ -2096,10 +2282,121 @@
         </section>
 
         <!-- ============================================================
+             OUR TEAM
+             Placeholder names/roles — replace with the real team.
+             Photos: save them as team-1.jpg … team-6.jpg next to this file
+             (portrait, about 600×750). Until a photo exists, the initials show.
+        ============================================================ -->
+        <section class="section team" id="team">
+            <div class="team-head section-head-row">
+                <div>
+                    <div class="section-tag label" data-reveal="fade">04 — Our Team</div>
+                    <h2 class="section-heading" data-split>
+                        The hands <span class="italic-serif">behind the chair</span>
+                    </h2>
+                </div>
+                <div class="label" data-reveal="fade" style="--d: 0.3s">06 artists · tap one to book</div>
+            </div>
+
+            <div class="team-title" id="teamTitle" aria-hidden="true">
+                <span>Our team</span><span class="star">✦</span><span class="outline">The artists</span><span class="star">✦</span><span>Our team</span><span class="star">✦</span><span class="outline">The artists</span>
+            </div>
+
+            <div class="team-row js-marquee" data-dir="-1" data-speed="0.045" data-reveal>
+                <div class="team-track">
+                    <a href="#book" class="member js-book" data-service="an appointment with Rakesh (master barber)" data-cursor="Book with Rakesh">
+                        <div class="member-photo">
+                            <span class="member-initials" aria-hidden="true">RS</span>
+                            <img src="team-1.jpg" alt="Rakesh Sahu" loading="lazy" decoding="async" onerror="this.remove()">
+                            <span class="member-index">01</span>
+                            <span class="member-skill">Fades &amp; beard design</span>
+                        </div>
+                        <div class="member-info">
+                            <span class="member-name">Rakesh Sahu</span>
+                            <span class="label">Founder · Master barber</span>
+                        </div>
+                    </a>
+                    <a href="#book" class="member js-book" data-service="an appointment with Ananya (colour director)" data-cursor="Book with Ananya">
+                        <div class="member-photo">
+                            <span class="member-initials" aria-hidden="true">AM</span>
+                            <img src="team-2.jpg" alt="Ananya Mishra" loading="lazy" decoding="async" onerror="this.remove()">
+                            <span class="member-index">02</span>
+                            <span class="member-skill">Balayage &amp; correction</span>
+                        </div>
+                        <div class="member-info">
+                            <span class="member-name">Ananya Mishra</span>
+                            <span class="label">Colour director</span>
+                        </div>
+                    </a>
+                    <a href="#book" class="member js-book" data-service="an appointment with Sameer (senior stylist)" data-cursor="Book with Sameer">
+                        <div class="member-photo">
+                            <span class="member-initials" aria-hidden="true">SK</span>
+                            <img src="team-3.jpg" alt="Sameer Khan" loading="lazy" decoding="async" onerror="this.remove()">
+                            <span class="member-index">03</span>
+                            <span class="member-skill">Scissor cuts &amp; texture</span>
+                        </div>
+                        <div class="member-info">
+                            <span class="member-name">Sameer Khan</span>
+                            <span class="label">Senior stylist</span>
+                        </div>
+                    </a>
+                    <a href="#book" class="member js-book" data-service="an appointment with Priya (hair care specialist)" data-cursor="Book with Priya">
+                        <div class="member-photo">
+                            <span class="member-initials" aria-hidden="true">PD</span>
+                            <img src="team-4.jpg" alt="Priya Das" loading="lazy" decoding="async" onerror="this.remove()">
+                            <span class="member-index">04</span>
+                            <span class="member-skill">Keratin &amp; scalp care</span>
+                        </div>
+                        <div class="member-info">
+                            <span class="member-name">Priya Das</span>
+                            <span class="label">Hair care specialist</span>
+                        </div>
+                    </a>
+                    <a href="#book" class="member js-book" data-service="an appointment with Bikash (barber)" data-cursor="Book with Bikash">
+                        <div class="member-photo">
+                            <span class="member-initials" aria-hidden="true">BN</span>
+                            <img src="team-5.jpg" alt="Bikash Nayak" loading="lazy" decoding="async" onerror="this.remove()">
+                            <span class="member-index">05</span>
+                            <span class="member-skill">Skin fades &amp; shaves</span>
+                        </div>
+                        <div class="member-info">
+                            <span class="member-name">Bikash Nayak</span>
+                            <span class="label">Barber</span>
+                        </div>
+                    </a>
+                    <a href="#book" class="member js-book" data-service="an appointment with Sneha (stylist)" data-cursor="Book with Sneha">
+                        <div class="member-photo">
+                            <span class="member-initials" aria-hidden="true">SP</span>
+                            <img src="team-6.jpg" alt="Sneha Patnaik" loading="lazy" decoding="async" onerror="this.remove()">
+                            <span class="member-index">06</span>
+                            <span class="member-skill">Layers &amp; styling</span>
+                        </div>
+                        <div class="member-info">
+                            <span class="member-name">Sneha Patnaik</span>
+                            <span class="label">Stylist</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="team-ribbon js-marquee" data-dir="1" data-speed="0.07" aria-hidden="true">
+                <div class="team-track">
+                    <span class="ribbon-item">Skin fades</span>
+                    <span class="ribbon-item"><span class="italic-serif">Beard design</span></span>
+                    <span class="ribbon-item">Balayage</span>
+                    <span class="ribbon-item"><span class="italic-serif">Razor shaves</span></span>
+                    <span class="ribbon-item">Keratin care</span>
+                    <span class="ribbon-item"><span class="italic-serif">Scissor cuts</span></span>
+                    <span class="ribbon-item">Colour correction</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
              BOOKING
         ============================================================ -->
         <section class="section cta" id="book">
-            <div class="section-tag label" data-reveal="fade">04 — Book</div>
+            <div class="section-tag label" data-reveal="fade">05 — Book</div>
             <h2 class="cta-big-heading" data-split>
                 Let's shape<br>
                 <span class="italic-serif">your signature look.</span>
@@ -2154,6 +2451,7 @@
                     <li><a href="#experience" class="u-link">Our work</a></li>
                     <li><a href="#services" class="u-link">Services &amp; prices</a></li>
                     <li><a href="#process" class="u-link">Your visit</a></li>
+                    <li><a href="#team" class="u-link">Our team</a></li>
                 </ul>
             </div>
             <div data-reveal style="--d: 0.16s">
@@ -2187,7 +2485,8 @@
         <a href="#experience" class="menu-link" style="--i:1"><span>Work</span></a>
         <a href="#services" class="menu-link" style="--i:2"><span>Services</span></a>
         <a href="#process" class="menu-link" style="--i:3"><span>Your visit</span></a>
-        <a href="#book" class="menu-link is-accent" style="--i:4"><span>Book now</span></a>
+        <a href="#team" class="menu-link" style="--i:4"><span>Team</span></a>
+        <a href="#book" class="menu-link is-accent" style="--i:5"><span>Book now</span></a>
     </nav>
     <!-- Phone only: thumb-reach booking bar -->
     <div class="mobile-dock" id="mobileDock">
@@ -2444,7 +2743,13 @@
                     scrollTrigger: { trigger: '#footerGiant', start: 'top bottom', end: 'bottom bottom', scrub: 0.8 }
                 });
 
-                // 10. Marquee band slides in from the side as it enters
+                // 10. Team title slides sideways with the scroll
+                gsap.fromTo('#teamTitle', { xPercent: 0 }, {
+                    xPercent: -32, ease: 'none',
+                    scrollTrigger: { trigger: '#team', start: 'top bottom', end: 'bottom top', scrub: 0.4 }
+                });
+
+                // 11. Marquee band slides in from the side as it enters
                 gsap.fromTo('.marquee', { xPercent: 6, opacity: 0.4 }, {
                     xPercent: 0, opacity: 1, ease: 'none',
                     scrollTrigger: { trigger: '.marquee', start: 'top bottom', end: 'top 60%', scrub: true }
@@ -2670,9 +2975,10 @@
                       (bookingContext.studio ? ' at the ' + bookingContext.studio + ' studio' : '') + '.';
             ctaWhatsApp.href = waLink(msg);
         }
-        document.querySelectorAll('.js-book').forEach(function (el) {
-            el.addEventListener('click', function () { setBooking(el.dataset.service, el.dataset.studio); });
-        });
+        document.addEventListener('click', function (e) {
+            var el = e.target.closest ? e.target.closest('.js-book') : null;
+            if (el) setBooking(el.dataset.service, el.dataset.studio);
+        }, true);
 
         /* ---------- In-page anchor links ---------- */
         document.addEventListener('click', function (e) {
@@ -2894,6 +3200,52 @@
             }).observe(marqueeTrack.parentNode);
         }
 
+        /* Team rows: clone each set until it covers the screen, then loop it */
+        var rows = Array.prototype.slice.call(document.querySelectorAll('.js-marquee')).map(function (row) {
+            var track = row.querySelector('.team-track');
+            var R = { row: row, track: track, set: Array.prototype.slice.call(track.children),
+                      dir: parseFloat(row.dataset.dir) || -1, speed: parseFloat(row.dataset.speed) || 0.05,
+                      pos: 0, width: 0, hover: false, visible: true };
+            row.addEventListener('mouseenter', function () { R.hover = true; });
+            row.addEventListener('mouseleave', function () { R.hover = false; });
+            row.addEventListener('focusin', function () { R.hover = true; });
+            row.addEventListener('focusout', function () { R.hover = false; });
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver(function (en) { R.visible = en[0].isIntersecting; }).observe(row);
+            }
+            return R;
+        });
+
+        function buildRows() {
+            rows.forEach(function (R) {
+                R.track.querySelectorAll('.is-clone').forEach(function (c) { c.parentNode.removeChild(c); });
+                var first = R.set[0];
+                var probe = null, guard = 0;
+                do {
+                    R.set.forEach(function (el) {
+                        var c = el.cloneNode(true);
+                        c.classList.add('is-clone');
+                        c.setAttribute('aria-hidden', 'true');
+                        if (c.tagName === 'A') c.setAttribute('tabindex', '-1');
+                        c.querySelectorAll('img').forEach(function (img) { img.alt = ''; });
+                        R.track.appendChild(c);
+                        if (!probe) probe = c;
+                    });
+                    guard++;
+                } while (R.track.scrollWidth < window.innerWidth * 2 + 400 && guard < 8);
+                // One loop = distance from the first card to its first copy
+                R.width = probe.offsetLeft - first.offsetLeft;
+                R.pos = R.pos % (R.width || 1);
+            });
+        }
+        buildRows();
+        fontsReady.then(buildRows);
+        var rowsTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(rowsTimer);
+            rowsTimer = setTimeout(buildRows, 200);
+        });
+
         var lastY = window.pageYOffset, vel = 0, mPos = 0, mDir = -1, mSkew = 0, lastT = performance.now();
         var marqueeHover = false;
         marqueeTrack.parentNode.addEventListener('mouseenter', function () { marqueeHover = true; });
@@ -2916,16 +3268,31 @@
             // Progress bar
             progressEl.style.transform = 'scaleX(' + (docMax > 0 ? clamp(y / docMax, 0, 1) : 0) + ')';
 
+            // Scroll direction (shared by all marquees)
+            if (!reduceMotion) { if (dy > 0.5) mDir = -1; else if (dy < -0.5) mDir = 1; }
+
             // Marquee: steady drift; scroll speeds it up and flips direction, fast scroll skews it
             if (marqueeVisible && marqueeHalf > 0) {
                 var baseSpeed = (reduceMotion ? 0.025 : 0.06) * dt * (marqueeHover ? 0.25 : 1);
                 var boost = reduceMotion ? 0 : Math.min(Math.abs(vel), 80) * 0.6;
-                if (!reduceMotion) { if (dy > 0.5) mDir = -1; else if (dy < -0.5) mDir = 1; }
                 mPos += mDir * (baseSpeed + boost);
                 if (mPos <= -marqueeHalf) mPos += marqueeHalf;
                 if (mPos > 0) mPos -= marqueeHalf;
                 if (!reduceMotion) mSkew += (clamp(-vel * 0.15, -8, 8) - mSkew) * 0.12;
                 marqueeTrack.style.transform = 'translate3d(' + mPos + 'px,0,0) skewX(' + mSkew.toFixed(2) + 'deg)';
+            }
+
+            // Team rows: same idea, each with its own direction; slow right down on hover
+            for (var ri = 0; ri < rows.length; ri++) {
+                var R = rows[ri];
+                if (!R.visible || !R.width) continue;
+                var rSpeed = R.speed * (reduceMotion ? 0.5 : 1) * dt * (R.hover ? 0.12 : 1);
+                var rBoost = reduceMotion ? 0 : Math.min(Math.abs(vel), 80) * 0.45;
+                var rDir = R.dir * (mDir === -1 ? 1 : -1);
+                R.pos += rDir * (rSpeed + rBoost * (R.hover ? 0.2 : 1));
+                if (R.pos <= -R.width) R.pos += R.width;
+                if (R.pos > 0) R.pos -= R.width;
+                R.track.style.transform = 'translate3d(' + R.pos + 'px,0,0)';
             }
 
             // Header: scrolled style, hide on scroll down / show on scroll up, always hidden while the stage is pinned
