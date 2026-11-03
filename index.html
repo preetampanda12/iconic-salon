@@ -125,6 +125,9 @@
         }
 
         html {
+            overflow-x: clip;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
             font-size: 16px;
             scroll-behavior: auto;
             background-color: var(--bg-main);
@@ -135,11 +138,13 @@
             background-color: var(--bg-main);
             color: var(--text-main);
             overflow-x: hidden;
+            overflow-x: clip;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
         a { color: inherit; text-decoration: none; }
+        a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         img { display: block; }
 
         :focus-visible {
@@ -1224,92 +1229,6 @@
             color: var(--text-muted);
         }
 
-        /* --- PROCESS --- */
-        .process {
-            padding: 120px 4vw;
-            background-color: var(--bg-main);
-        }
-
-        .process .section-head-row { margin-bottom: 56px; }
-
-        .process-list { list-style: none; }
-
-        .process-row {
-            position: relative;
-            display: grid;
-            grid-template-columns: 80px 1.3fr 2fr auto;
-            align-items: baseline;
-            gap: 16px;
-            padding: 24px 0;
-        }
-
-        .process-row::before,
-        .process-row::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 1px;
-            transform-origin: left center;
-        }
-
-        .process-row::after { bottom: 0; background-color: var(--border-light); }
-        .process-row:first-child::before { top: 0; background-color: var(--border-strong); }
-
-        /* Hover: yellow wash slides in from the left */
-        .process-row > .process-wash {
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            background-color: rgba(211, 232, 54, 0.22);
-            transform: scaleX(0);
-            transform-origin: left center;
-            transition: transform 0.6s var(--ease-out);
-        }
-
-        .process-row:hover > .process-wash { transform: scaleX(1); }
-
-        .process-row > *:not(.process-wash) { transition: transform 0.5s var(--ease-out); }
-        .process-row:hover > *:not(.process-wash) { transform: translateX(12px); }
-
-        .js .process-row[data-reveal]::before,
-        .js .process-row[data-reveal]::after {
-            transform: scaleX(0);
-            transition: transform 1.4s var(--ease-in-out);
-            transition-delay: calc(var(--d, 0s) + 0.1s);
-        }
-
-        .js .process-row[data-reveal].is-in::before,
-        .js .process-row[data-reveal].is-in::after { transform: scaleX(1); }
-
-        .process-list { position: relative; z-index: 0; isolation: isolate; }
-
-        .process-name {
-            font-family: var(--font-headline);
-            font-weight: 800;
-            font-size: clamp(1.3rem, 2.2vw, 2rem);
-            line-height: 1;
-            letter-spacing: -0.02em;
-            text-transform: uppercase;
-            color: var(--text-main);
-        }
-
-        .process-detail {
-            font-family: var(--font-serif);
-            font-style: italic;
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-        }
-
-        .process-time {
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 0.04em;
-            color: var(--text-main);
-            white-space: nowrap;
-            padding-right: 16px;
-        }
-
         /* --- TEAM (marquee rows) --- */
         .team {
             padding: 120px 0 140px;
@@ -1734,8 +1653,6 @@
             .meta-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
             .pillars-grid { grid-template-columns: 1fr 1fr; }
             .footer-top-row { grid-template-columns: 1fr 1fr; }
-            .process-row { grid-template-columns: 60px 1fr auto; }
-            .process-detail { grid-column: 2 / 4; grid-row: 2; }
             .cta-lower { grid-template-columns: 1fr; }
             .cta-side { justify-self: start; align-items: flex-start; }
             .cta-contact { align-items: flex-start; text-align: left; }
@@ -1760,20 +1677,20 @@
 
             /* Hero */
             /* Hero on phones: smaller title + buttons, sitting lower in the frame */
-            .hero { padding: 0 16px 92px; }
-            .masked-text.h1 { font-size: 1.3rem; margin-bottom: 14px; letter-spacing: 0.02em; }
+            .hero { padding: 0 16px 140px; }
+            .masked-text.h1 { font-size: 1.65rem; margin-bottom: 18px; letter-spacing: 0.02em; }
             .scroll-cue { font-size: 0; gap: 0; }
             .scroll-cue i { height: 26px; }
             .hero-foot { left: 16px; right: 16px; bottom: 18px; }
             .hero-foot .hero-place { display: none; }
             .hero_btn_wrap { width: 100%; max-width: 340px; }
             .hero_btn_wrap { max-width: none; width: auto; gap: 8px; }
-            .hero_btn_wrap .btn-solid { flex: 0 0 auto; white-space: nowrap; justify-content: center; padding: 10px 14px; font-size: 10px; }
+            .hero_btn_wrap .btn-solid { flex: 0 0 auto; white-space: nowrap; justify-content: center; padding: 14px 18px; font-size: 11px; }
 
             /* Section spacing */
             .story-section { padding: 52px 16px 70px; }
-            .manifesto, .services, .process, .site-footer { padding-left: 16px; padding-right: 16px; }
-            .manifesto, .services, .process { padding-top: 80px; padding-bottom: 80px; }
+            .manifesto, .services, .site-footer { padding-left: 16px; padding-right: 16px; }
+            .manifesto, .services { padding-top: 80px; padding-bottom: 80px; }
             .story-grid { gap: 28px; }
             .meta-grid { gap: 22px 16px; }
 
@@ -1830,12 +1747,6 @@
             }
             .services-note { margin-top: 16px; }
 
-            /* How it works: step / name + time / detail */
-            .process-row { grid-template-columns: 1fr auto; gap: 4px 16px; padding: 20px 0; }
-            .process-step { grid-column: 1 / 3; grid-row: 1; }
-            .process-name { grid-column: 1; grid-row: 2; }
-            .process-time { grid-column: 2; grid-row: 2; padding-right: 0; align-self: center; }
-            .process-detail { grid-column: 1 / 3; grid-row: 3; font-size: 1.12rem; }
 
             /* Team */
             .team { padding: 80px 0 96px; }
@@ -1863,8 +1774,7 @@
             .cta-contact { gap: 0; font-size: 13px; }
             .cta-contact a { display: inline-block; padding: 7px 0; }
 
-            /* Footer: two columns, bigger tap targets, room for the booking bar */
-            .site-footer { padding-bottom: 96px; }
+            /* Footer: two columns, bigger tap targets */
             .footer-top-row { grid-template-columns: 1fr 1fr; gap: 36px 20px; padding-bottom: 40px; }
             .footer-logo-block { grid-column: 1 / -1; }
             .footer-links { gap: 0; }
@@ -1882,7 +1792,14 @@
             .sound-sep, .sound-toggle-btn { display: none; }
             .loader { padding: 16px 16px 20px; }
 
-            /* Sticky booking bar next to the menu box */
+        }
+
+        /* ============================================================
+           PHONES & TABLETS (portrait): sticky booking bar, room for it in the footer
+        ============================================================ */
+        @media (max-width: 900px) and (min-height: 501px) {
+            .site-footer { padding-bottom: 96px; }
+            /* Sticky booking bar */
             .mobile-dock {
                 display: flex;
                 position: fixed;
@@ -1922,6 +1839,75 @@
             }
         }
 
+        /* Phones: slightly larger small labels for readability */
+        @media (max-width: 640px) {
+            .label, .nav-meta { font-size: 12px; }
+            .look-cat, .stage-footer-bar { font-size: 11px; }
+        }
+
+        /* ============================================================
+           TOUCH SCREENS (any size): finger-sized links, press feedback
+        ============================================================ */
+        @media (pointer: coarse) {
+            .footer-links { gap: 0; }
+            .footer-links a { display: inline-block; padding: 9px 0; }
+            .footer-bottom-row a { display: inline-block; padding: 10px 0; }
+            .cta-contact { gap: 0; }
+            .cta-contact a { display: inline-block; padding: 8px 0; }
+            .stage-footer-bar a, .sound-toggle-btn { display: inline-block; padding: 10px 0; }
+            .menu-link { padding: 5px 0; }
+            .menu-book-now {
+                padding: 10px 14px;
+                border: 1px solid currentColor;
+                border-radius: 3px;
+            }
+            .sound-sep, .sound-toggle-btn { display: none; }
+        }
+
+        @media (hover: none) {
+            .btn-solid, .btn-outline, .cta-btn, .dock-book, .dock-call, .floating-btn,
+            .menu-book-now, .pillar-card, .member, .cta-badge, .menu-link {
+                transition-property: background-color, color, border-color, opacity, scale, transform;
+            }
+            .btn-solid:active, .btn-outline:active, .cta-btn:active, .dock-book:active,
+            .dock-call:active, .floating-btn:active, .menu-book-now:active, .cta-badge:active { scale: 0.95; }
+            .pillar-card:active, .member:active { scale: 0.98; }
+        }
+
+        /* ============================================================
+           LANDSCAPE PHONES (short screens)
+        ============================================================ */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .hero { padding-bottom: 44px; }
+            .masked-text.h1 { font-size: 1.5rem; margin-bottom: 14px; }
+            .hero-foot { display: none; }
+
+            /* Gallery: give the photos the room, keep the wordmark compact on one line */
+            .stage { height: 240vh; }
+            .rail { flex: 1 1 auto; height: auto; min-height: 0; }
+            .stage-bottom { padding: 4px 16px 12px; gap: 0; }
+            .brand-row { grid-template-columns: auto 1fr; align-items: end; gap: 16px; }
+            .giant-logo { font-size: 17vh; }
+            .brand-desc, .stage-footer-bar { display: none; }
+            .brand-desc-wrap { padding-bottom: 4px; }
+
+            /* Sections: less vertical padding */
+            .story-section { padding-top: 48px; padding-bottom: 56px; }
+            .manifesto, .services, .team { padding-top: 64px; padding-bottom: 64px; }
+            .cta { padding-top: 72px; padding-bottom: 72px; }
+            .services .section-head-row { margin-bottom: 32px; }
+
+            /* Team: cards and title sized to the short screen */
+            .member { width: 150px; }
+            .member-initials { font-size: 3.6rem; }
+            .team-title { font-size: 16vh; }
+            .team-title-row { margin-bottom: 24px; }
+            .team-ribbon { margin-top: 32px; }
+
+            /* Menu panel never taller than the screen */
+            .menu-panel { max-height: calc(100vh - 20px); overflow-y: auto; }
+        }
+
         /* Short phones (e.g. 360×640): drop the long description in the gallery block */
         @media (max-width: 640px) and (max-height: 760px) {
             .giant-logo { font-size: 15vw; }
@@ -1933,7 +1919,6 @@
         /* Touch devices: no hover, so always show the look captions */
         @media (hover: none) {
             .look-caption > span { opacity: 1; transform: none; }
-            .process-row:hover > *:not(.process-wash) { transform: none; }
             .pillar-card:hover .pillar-list li { transform: none; }
         }
 
@@ -1952,7 +1937,6 @@
             .js .stage-fade { transform: none; }
             .js .hero_bg_img_wrap, .js .hero_btn_wrap, .js .hero-foot { opacity: 1; transform: none; transition: opacity 0.6s ease; }
             .js .hero_bg_video { scale: 1; transition: none; }
-            .js .process-row[data-reveal]::before, .js .process-row[data-reveal]::after { transform: none; transition: none; }
             .js:not(.is-ready) .menu-wrapper { transform: none; }
             .menu-panel, .menu-link span { transition-duration: 0.01ms !important; }
         }
@@ -2286,52 +2270,6 @@
         </section>
 
         <!-- ============================================================
-             YOUR VISIT (process)
-        ============================================================ -->
-        <section class="section process" id="process">
-            <div class="section-head-row">
-                <div>
-                    <div class="section-tag label" data-reveal="fade">03 — Your Visit</div>
-                    <h2 class="section-heading" data-split>
-                        How it <span class="italic-serif">works</span>
-                    </h2>
-                </div>
-                <div class="label" data-reveal="fade" style="--d: 0.3s">Four unhurried steps</div>
-            </div>
-
-            <ol class="process-list">
-                <li class="process-row" data-reveal style="--d: 0s">
-                    <span class="process-wash" aria-hidden="true"></span>
-                    <span class="process-step label">01</span>
-                    <span class="process-name">Consult</span>
-                    <span class="process-detail">We look at your face shape, texture and routine first.</span>
-                    <span class="process-time">10 MIN</span>
-                </li>
-                <li class="process-row" data-reveal style="--d: 0.1s">
-                    <span class="process-wash" aria-hidden="true"></span>
-                    <span class="process-step label">02</span>
-                    <span class="process-name">Cut or colour</span>
-                    <span class="process-detail">Your stylist does the work — no rushing, no shortcuts.</span>
-                    <span class="process-time">30 — 120 MIN</span>
-                </li>
-                <li class="process-row" data-reveal style="--d: 0.2s">
-                    <span class="process-wash" aria-hidden="true"></span>
-                    <span class="process-step label">03</span>
-                    <span class="process-name">Finish</span>
-                    <span class="process-detail">Wash, style, and a quick lesson in recreating it at home.</span>
-                    <span class="process-time">15 MIN</span>
-                </li>
-                <li class="process-row" data-reveal style="--d: 0.3s">
-                    <span class="process-wash" aria-hidden="true"></span>
-                    <span class="process-step label">04</span>
-                    <span class="process-name">Aftercare</span>
-                    <span class="process-detail">Product advice and when to come back for your next visit.</span>
-                    <span class="process-time">ONGOING</span>
-                </li>
-            </ol>
-        </section>
-
-        <!-- ============================================================
              OUR TEAM
              Placeholder names/roles — replace with the real team.
              Photos: save them as team-1.jpg … team-6.jpg next to this file
@@ -2340,7 +2278,7 @@
         <section class="section team" id="team">
             <div class="team-head section-head-row">
                 <div>
-                    <div class="section-tag label" data-reveal="fade">04 — Our Team</div>
+                    <div class="section-tag label" data-reveal="fade">03 — Our Team</div>
                     <h2 class="section-heading" data-split>
                         The hands <span class="italic-serif">behind the chair</span>
                     </h2>
@@ -2448,7 +2386,7 @@
              BOOKING
         ============================================================ -->
         <section class="section cta" id="book">
-            <div class="section-tag label" data-reveal="fade">05 — Book</div>
+            <div class="section-tag label" data-reveal="fade">04 — Book</div>
             <h2 class="cta-big-heading" data-split>
                 Let's shape<br>
                 <span class="italic-serif">your signature look.</span>
@@ -2502,7 +2440,6 @@
                     <li><a href="#story" class="u-link">About</a></li>
                     <li><a href="#experience" class="u-link">Our work</a></li>
                     <li><a href="#services" class="u-link">Services &amp; prices</a></li>
-                    <li><a href="#process" class="u-link">Your visit</a></li>
                     <li><a href="#team" class="u-link">Our team</a></li>
                 </ul>
             </div>
@@ -2536,9 +2473,8 @@
         <a href="#story" class="menu-link" style="--i:0"><span>About</span></a>
         <a href="#experience" class="menu-link" style="--i:1"><span>Work</span></a>
         <a href="#services" class="menu-link" style="--i:2"><span>Services</span></a>
-        <a href="#process" class="menu-link" style="--i:3"><span>Your visit</span></a>
-        <a href="#team" class="menu-link" style="--i:4"><span>Team</span></a>
-        <a href="#book" class="menu-link is-accent" style="--i:5"><span>Book now</span></a>
+        <a href="#team" class="menu-link" style="--i:3"><span>Team</span></a>
+        <a href="#book" class="menu-link is-accent" style="--i:4"><span>Book now</span></a>
     </nav>
     <!-- Phone only: thumb-reach booking bar -->
     <div class="mobile-dock" id="mobileDock">
@@ -2795,9 +2731,10 @@
                     scrollTrigger: { trigger: '#footerGiant', start: 'top bottom', end: 'bottom bottom', scrub: 0.8 }
                 });
 
-                // 11. Marquee band slides in from the side as it enters
-                gsap.fromTo('.marquee', { xPercent: 6, opacity: 0.4 }, {
-                    xPercent: 0, opacity: 1, ease: 'none',
+                // 11. Marquee band fades up as it enters (opacity only — never shifts sideways,
+                //     because anything wider than the screen makes some phones zoom the page out)
+                gsap.fromTo('.marquee', { opacity: 0.4 }, {
+                    opacity: 1, ease: 'none',
                     scrollTrigger: { trigger: '.marquee', start: 'top bottom', end: 'top 60%', scrub: true }
                 });
             });
@@ -3288,8 +3225,10 @@
         }
         buildRows();
         fontsReady.then(buildRows);
-        var rowsTimer;
+        var rowsTimer, rowsW = window.innerWidth;
         window.addEventListener('resize', function () {
+            if (window.innerWidth === rowsW) return;   // address-bar show/hide on phones: ignore
+            rowsW = window.innerWidth;
             clearTimeout(rowsTimer);
             rowsTimer = setTimeout(buildRows, 200);
         });
