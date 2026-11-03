@@ -426,7 +426,10 @@
            MENU (black box with yellow lines, top-left → drops open into a panel)
         ============================================================ */
         .floating-btn {
-            position: relative;
+            position: fixed;
+            top: 22px;
+            left: 28px;
+            z-index: 1001;          /* above the header and the menu panel */
             width: 56px;
             height: 42px;
             background-color: var(--text-main);
@@ -438,9 +441,15 @@
             gap: 6px;
             cursor: pointer;
             border: none;
-            box-shadow: 0 0 0 1px rgba(237, 238, 229, 0.18);
-            transition: transform 0.5s var(--ease-out), scale 0.6s var(--ease-out);
+            box-shadow: 0 0 0 1px rgba(237, 238, 229, 0.18), 0 6px 18px rgba(0, 0, 0, 0.18);
+            transition: transform 0.5s var(--ease-out), scale 0.6s var(--ease-out), top 0.3s ease, opacity 0.6s ease;
         }
+
+        /* Lines up with the slimmer header once you scroll */
+        .floating-btn.is-compact { top: 14px; }
+
+        /* Hidden until the intro has finished, like the header */
+        .js:not(.is-ready) .floating-btn { opacity: 0; pointer-events: none; }
 
         .floating-btn .btn-yellow-line {
             width: 26px;
@@ -1783,7 +1792,7 @@
             .footer-bottom-row a { display: inline-block; padding: 8px 0; }
 
             /* Floating menu */
-            .floating-btn { width: 50px; height: 40px; }
+            .floating-btn, .floating-btn.is-compact { width: 50px; height: 40px; top: 12px; left: 16px; }
             .menu-panel { min-width: calc(100vw - 32px); padding: 66px 22px 24px; clip-path: inset(0 calc(100% - 50px) calc(100% - 40px) 0 round 4px); }
             .menu-panel.open { clip-path: inset(0 0 0 0 round 6px); }
             .menu-open .logo-text, .menu-open .menu-book-now { color: #ffffff !important; }
@@ -1969,12 +1978,7 @@
 
     <!-- Header -->
     <header class="menu-wrapper" id="menu">
-        <div class="menu-third left">
-            <button class="floating-btn" id="floatingBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menuPanel" data-magnetic>
-                <span class="btn-yellow-line"></span>
-                <span class="btn-yellow-line"></span>
-            </button>
-        </div>
+        <div class="menu-third left" aria-hidden="true"></div>
         <div class="menu-third center">
             <a href="#top" class="logo-text" aria-label="ICONIC — back to top">ICONIC</a>
         </div>
@@ -1982,6 +1986,12 @@
             <a href="#book" class="menu-book-now" data-magnetic>Book</a>
         </div>
     </header>
+
+    <!-- Menu button: fixed top-left, always reachable (the header itself hides on scroll) -->
+    <button class="floating-btn" id="floatingBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menuPanel" data-magnetic>
+        <span class="btn-yellow-line"></span>
+        <span class="btn-yellow-line"></span>
+    </button>
 
     <main>
         <!-- ============================================================
@@ -2912,10 +2922,8 @@
             menuOpen = open;
             if (open) {
                 // Line the panel up with the button so it grows out of it
-                menu.classList.remove('is-hidden');
                 var br = floatingBtn.getBoundingClientRect();
-                var hdr = menu.getBoundingClientRect();
-                panel.style.top = (br.top - hdr.top) + 'px';
+                panel.style.top = br.top + 'px';
                 panel.style.left = br.left + 'px';
             }
             body.classList.toggle('menu-open', open);
@@ -3292,6 +3300,7 @@
             var pinned = sr.top <= 1 && sr.bottom >= vh - 1;
             menu.classList.toggle('scrolled', y > 50);
             menu.classList.toggle('is-hidden', !menuOpen && (pinned || headerHidden));
+            floatingBtn.classList.toggle('is-compact', y > 50);
 
             // Phone booking bar
             var bookInView = br.top < vh * 0.85 && br.bottom > 0;
